@@ -1,7 +1,7 @@
 //Carolina Turner CSCE 242
 const getBeverages = async() => {
     try {
-        return (await fetch("api/beverages")).json();
+        return (await fetch("/api/beverages")).json();
     } catch (error) {
         console.log(error);
     }
