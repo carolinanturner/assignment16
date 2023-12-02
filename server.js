@@ -17,7 +17,7 @@ mongoose
 .catch((error)=>console.log("couldnt connect !!"))
 
 const beverageSchema = new mongoose.Schema({
-        _id : mongoose.SchemaTypes.ObjectId,
+       /* _id : mongoose.SchemaTypes.ObjectId,*/
         title : String, 
         hot_or_iced:String,
         price:Number,

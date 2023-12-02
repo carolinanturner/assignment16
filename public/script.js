@@ -1,7 +1,7 @@
 //Carolina Turner CSCE 242
 const getBeverages = async() => {
     try {
-        return (await fetch("/api/beverages/")).json();
+        return (await fetch("https://assignment17-2uzz.onrender.com/")).json();
     } catch (error) {
         console.log(error);
     }
@@ -194,7 +194,7 @@ const getBeverages = async() => {
       form.beverageId = "-1";
       document.getElementById("flavors-boxes").innerHTML = "";
     };
-    
+
     const showHideAdd = (e) => {
       e.preventDefault();
       document.querySelector(".dialog").classList.remove("transparent");
