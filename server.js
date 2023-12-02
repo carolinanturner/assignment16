@@ -12,12 +12,12 @@ const mongoose = require ("mongoose");
 const upload = multer({dest : __dirname + "/public/images"});
 
 mongoose
-.connect('mongodb://localhost/beverages')
+.connect("mongodb://localhost/beverages")
 .then(()=>{console.log("connected yay!!!")})
 .catch((error)=>console.log("couldnt connect !!"))
 
 const beverageSchema = new mongoose.Schema({
-       /* _id : mongoose.SchemaTypes.ObjectId,*/
+        beverageId: mongoose.SchemaTypes.ObjectId,
         title : String, 
         hot_or_iced:String,
         price:Number,
@@ -46,7 +46,7 @@ app.get("/api/beverages/:id", (req, res) => {
   });
   
 const getBeverage = async (res, id) => {
-    const beverage = await Beverage.findOne({ _id: id });
+    const beverage = await Beverage.findOne({ beverageId: id });
     res.send(beverage);
   };
   
@@ -99,7 +99,7 @@ const updateBeverage = async (req, res) => {
     if (req.file) {
       fieldsToUpdate.img = "images/" + req.file.filename;
     }
-    const result = await Beverage.updateOne({ _id: req.params.id }, fieldsToUpdate);
+    const result = await Beverage.updateOne({ beverageId: req.params.id }, fieldsToUpdate);
     res.send(result);
   };
 
@@ -112,15 +112,15 @@ const updateBeverage = async (req, res) => {
     res.send(beverage);
   };
 
-const validateBeverage = (beverage)=> {
+function validateBeverage (beverage) {
     const schema = Joi.object({ //Joi Validation
-        beverageId : Joi.allow(""),
         beverageTitle : Joi.string().min(3).required(), //joi validating it must be string of length three and is required, "tea" is minimum length
         hot_or_iced : Joi.string().min(3), //not required if can be either or
         price : Joi.allow().required(),
         fan_favorite: Joi.allow(),
         recommendation : Joi.allow("").required(),
         flavors :Joi.allow(""),
+        beverageId: Joi.allow("")
     });
 
     return schema.validate(beverage);

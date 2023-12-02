@@ -1,7 +1,7 @@
 //Carolina Turner CSCE 242
 const getBeverages = async() => {
     try {
-        return (await fetch("/api/beverages")).json();
+        return (await fetch("api/beverages")).json();
     } catch (error) {
         console.log(error);
     }
@@ -166,7 +166,15 @@ const getBeverages = async() => {
     resetForm();
     showBeverages();
   }
+  const getBeverage = async (beverageId) => {
+    let response = await fetch(`/api/beverages/${beverageId}`);
+    if (response.status != 200) {
+      console.log("Error reciving beverage!");
+      return;
+    }
   
+    return await response.json();
+  };
   
   const getFlavors = () => {
     const inputs = document.querySelectorAll("#flavors-boxes input");
