@@ -122,7 +122,7 @@ const getBeverages = async() => {
   for (let i in beverage.flavors) {
     const input = document.createElement("input");
     input.type = "text";
-    input.value = recipe.flavors[i];
+    input.value = beverage.flavors[i];
     flavorsP.append(input);
   }
 };
