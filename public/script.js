@@ -91,7 +91,7 @@ const getBeverages = async() => {
   };
   
     async function deleteBeverage(beverageId) {
-    let response = await fetch(`/api/beverages/${beverage.beverageId}`,{
+    let response = await fetch(`/api/beverages/${beverageId}`,{
     method : "DELETE",
     headers : {
           "Content-Type": "application/json;charset-utf-8",
