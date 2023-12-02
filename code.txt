@@ -1,0 +1,26 @@
+const mongoose = require ("mongoose");
+mongoose.connect("mongodb://localhost/beverages")
+    .then(()=> console.log("mangoes!"))
+    .catch((error) => console.log("no mangoes :-(", error));
+
+const beverageSchema = new mongoose.Schema({
+    beverageTitle: String,
+    hot_or_iced : String,
+    price : Number,
+    recommendation : String,
+    flavors : [String]
+})
+
+const Beverage = mongoose.model("Beverage", beverageSchema);
+const createBeverage = async () => {
+    const beverage = new Beverage ({
+            beverageTitle : "Coffee!",
+            hot_or_iced : "Hot",
+            price : 3,
+            recommendation : "Cream and sugar!",
+            flavors : ["Caramel", "Vanilla"],
+    });
+    const result = await beverage.save();
+    console.log(result);
+}
+createBeverage();

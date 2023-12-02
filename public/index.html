@@ -1,0 +1,64 @@
+<!--Carolina Turner CSCE 242-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Assignment 15</title>
+        <link rel="stylesheet" href="styles.css"/>
+        <script src="script.js"></script>
+
+        <a href="#" id="add-link">+</a>
+    </head>
+    <body>
+        <header><h1>Beverages</h1></header>
+    
+<div class="columns two-columns">
+    <div id ="beverages-list" class="columns"></div>
+    <div id ="beverage-details-column" class="columns">
+        <h2>Beverage Details</h2>
+        <div id="beverage-details"></div>
+    </div>
+    </div>
+    <div id="add-edit-beverage-container" class="dialog transparent">
+        <span class="close">&times;</span>
+
+        <h3 id="add-edit-title">Beverage</h3>
+        <form id="add-edit-beverage-form" method="post">
+            <input type="hidden" name="beverageId" value="-1" />
+            <p>
+                <label for="title">Beverage Title:</label>
+                <input type="text" id="beverageTitle" name="beverageTitle" required />
+            </p>
+            <p>
+                <label for="hot_or_iced">Hot or Iced:</label>
+                <input type="text" id="hot_or_iced" name="hot_or_iced" required />
+            </p>
+
+            <p>
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" required />
+            </p>
+
+            <p id="recommendation_p ">
+                <label class="inline">What would you recommend? (Flavors, prep, etc.):</label>
+                <a href="#" id="add-recommendation">Add recommendations</a>
+                <section id="recommendation-boxes"></section>
+            </p>
+
+            <p id="flavors_p ">
+                <label class="inline">Flavors? :</label>
+                <a href="#" id="add-flavor">Add a flavor</a>
+                <section id="flavors-boxes"></section>
+            </p>
+
+            <p>
+                <label for="img">Chose Image:</label>
+                <input type="file" id="img" name="img" />
+            </p>
+
+            <p>
+                <button type="submit">Submit</button>
+            </p>
+        </form>
+
+        </body>
+    </html>
