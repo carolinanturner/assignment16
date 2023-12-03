@@ -84,7 +84,7 @@ const getBeverages = async() => {
   
     dLink.onclick = (e) => {
       e.preventDefault();
-      deleteBeverage(beverage.beverageId);
+      deleteBeverage(beverage._id);
     };
   
     populateEditForm(beverage);
@@ -97,6 +97,7 @@ const getBeverages = async() => {
           "Content-Type": "application/json;charset-utf-8",
         } ,
       });
+      console.log("tacos");
       if(response.status !=200){
         console.log("error deleting!");
         return;
@@ -108,6 +109,7 @@ const getBeverages = async() => {
       resetForm();
       showBeverages();
     };
+
     const populateEditForm = (beverage) => {
       const form = document.getElementById("add-edit-beverage-form");
       form.beverageId.value=beverage.beverageId,
@@ -117,8 +119,7 @@ const getBeverages = async() => {
     
       const flavorsP = document.getElementById("flavors-boxes");
       flavorsP.innerHTML = "";
-      console.log(beverage.flavors);
-
+    
   for (let i in beverage.flavors) {
     const input = document.createElement("input");
     input.type = "text";
@@ -129,13 +130,12 @@ const getBeverages = async() => {
   
     const addEditBeverage = async (e) => {
       e.preventDefault();
-
+      
       const form = document.getElementById("add-edit-beverage-form");
       const formData = new FormData(form);
       formData.append("flavors", getFlavors());
       formData.append("recommendation", getRecommendations());
       let response;
-  
       //if is new beverage
       if (form.beverageId.value==-1){
           formData.delete("beverageId");
@@ -150,15 +150,18 @@ const getBeverages = async() => {
           method: "PUT", 
           body: formData,
         });
+        console.log("youiuouuo!!!!!!");
       }
   
       if(response.status != 200){
         console.log("Error contacting server!");
         return;
     }
-    let beverage= await response.json(); 
+    
+    let result= await response.json(); 
 
     if (form.beverageId.value != -1) {
+      const beverage = await getRecipe(form.beverageId.value);
       displayDetails(beverage);
 };
 
@@ -169,10 +172,9 @@ const getBeverages = async() => {
   const getBeverage = async (beverageId) => {
     let response = await fetch(`/api/beverages/${beverageId}`);
     if (response.status != 200) {
-      console.log("Error reciving beverage!");
+      console.log("Error receiving beverage!");
       return;
     }
-  
     return await response.json();
   };
   

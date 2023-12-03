@@ -20,6 +20,7 @@ const beverageSchema = new mongoose.Schema({
         beverageId: mongoose.SchemaTypes.ObjectId,
         title : String, 
         hot_or_iced:String,
+        fan_favorite : String,
         price:Number,
         recommendation: String,
         flavors: [String],
@@ -42,10 +43,10 @@ const getBeverages = async (res)=>{
 };
 
 app.get("/api/beverages/:id", (req, res) => {
-    getBeverage(res, req.params.id);
+    getBeverage(req.params.id, res);
   });
   
-const getBeverage = async (res, id) => {
+const getBeverage = async (id, res) => {
     const beverage = await Beverage.findOne({ beverageId: id });
     res.send(beverage);
   };
@@ -58,20 +59,22 @@ app.post("/api/beverages", upload.single("img"), (req,res)=>{
     }
 
     const beverage = new Beverage({
+       
         title : req.body.beverageTitle,
         hot_or_iced : req.body.hot_or_iced,
         price : req.body.price,
+        fan_favorite:req.body.fan_favorite,
         recommendation : req.body.recommendation,
         flavors : req.body.flavors.split(","),
     });
 
      if (req.file){
-        recipe.img="images/" + req.file.filename;
+        beverage.img="images/" + req.file.filename;
     }
-    createBeverage(res,recipe);
+    createBeverage(beverage, res);
 });
 
-const createBeverage = async (res, beverage) => {
+const createBeverage = async (beverage, res) => {
     const result = await beverage.save();
     res.send(beverage);
   };
@@ -93,6 +96,7 @@ const updateBeverage = async (req, res) => {
         hot_or_iced : req.body.hot_or_iced,
         price : req.body.price,
         recommendation : req.body.recommendation,
+        fan_favorite : req.body.fan_favorite,
         flavors : req.body.flavors.split(","),
     };
   
