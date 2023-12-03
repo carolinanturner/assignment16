@@ -150,7 +150,7 @@ const getBeverages = async() => {
           method: "PUT", 
           body: formData,
         });
-        console.log("youiuouuo!!!!!!");
+        
       }
   
       if(response.status != 200){
@@ -161,7 +161,7 @@ const getBeverages = async() => {
     let result= await response.json(); 
 
     if (form.beverageId.value != -1) {
-      const beverage = await getRecipe(form.beverageId.value);
+      const beverage = await getBeverage(form.beverageId.value);
       displayDetails(beverage);
 };
 
@@ -169,6 +169,7 @@ const getBeverages = async() => {
     resetForm();
     showBeverages();
   }
+  
   const getBeverage = async (beverageId) => {
     let response = await fetch(`/api/beverages/${beverageId}`);
     if (response.status != 200) {
@@ -178,6 +179,7 @@ const getBeverages = async() => {
     return await response.json();
   };
   
+  console.log("youiuouuo!!!!!!");
   const getFlavors = () => {
     const inputs = document.querySelectorAll("#flavors-boxes input");
     const flavors = [];

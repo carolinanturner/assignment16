@@ -17,7 +17,6 @@ mongoose
 .catch((error)=>console.log("couldnt connect !!"))
 
 const beverageSchema = new mongoose.Schema({
-        beverageId: mongoose.SchemaTypes.ObjectId,
         title : String, 
         hot_or_iced:String,
         fan_favorite : String,
@@ -43,10 +42,10 @@ const getBeverages = async (res)=>{
 };
 
 app.get("/api/beverages/:id", (req, res) => {
-    getBeverage(req.params.id, res);
+    getBeverage(res, req.params.id);
   });
   
-const getBeverage = async (id, res) => {
+const getBeverage = async (res, id) => {
     const beverage = await Beverage.findOne({ beverageId: id });
     res.send(beverage);
   };
@@ -59,7 +58,6 @@ app.post("/api/beverages", upload.single("img"), (req,res)=>{
     }
 
     const beverage = new Beverage({
-       
         title : req.body.beverageTitle,
         hot_or_iced : req.body.hot_or_iced,
         price : req.body.price,
@@ -67,11 +65,10 @@ app.post("/api/beverages", upload.single("img"), (req,res)=>{
         recommendation : req.body.recommendation,
         flavors : req.body.flavors.split(","),
     });
-
      if (req.file){
         beverage.img="images/" + req.file.filename;
     }
-    createBeverage(beverage, res);
+    createBeverage(res, beverage);
 });
 
 const createBeverage = async (beverage, res) => {
