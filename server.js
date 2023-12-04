@@ -12,7 +12,7 @@ const mongoose = require ("mongoose");
 const upload = multer({dest : __dirname + "/public/images"});
 
 mongoose
-.connect("mongodb://localhost/beverages")
+.connect("mongodb+srv://carturner:<csce242>@cluster0.m73w20w.mongodb.net/?retryWrites=true&w=majority")
 .then(()=>{console.log("connected yay!!!")})
 .catch((error)=>console.log("couldnt connect !!"))
 
@@ -46,11 +46,12 @@ app.get("/api/beverages/:id", (req, res) => {
   });
   
 const getBeverage = async (res, id) => {
-    const beverage = await Beverage.findOne({ beverageId: id });
+    const beverage = await Beverage.findOne({ _id: id });
     res.send(beverage);
   };
   
 app.post("/api/beverages", upload.single("img"), (req,res)=>{
+  console.log("office hours!!");
     const result = validateBeverage(req.body);
     if(result.error){
         res.status(400).send(result.error.details[0].message);
@@ -68,7 +69,7 @@ app.post("/api/beverages", upload.single("img"), (req,res)=>{
      if (req.file){
         beverage.img="images/" + req.file.filename;
     }
-    createBeverage(res, beverage);
+    createBeverage(beverage, res);
 });
 
 const createBeverage = async (beverage, res) => {
@@ -96,11 +97,10 @@ const updateBeverage = async (req, res) => {
         fan_favorite : req.body.fan_favorite,
         flavors : req.body.flavors.split(","),
     };
-  
     if (req.file) {
       fieldsToUpdate.img = "images/" + req.file.filename;
     }
-    const result = await Beverage.updateOne({ beverageId: req.params.id }, fieldsToUpdate);
+    const result = await Beverage.updateOne({ _id: req.params.id }, fieldsToUpdate);
     res.send(result);
   };
 
@@ -121,7 +121,7 @@ function validateBeverage (beverage) {
         fan_favorite: Joi.allow(),
         recommendation : Joi.allow("").required(),
         flavors :Joi.allow(""),
-        beverageId: Joi.allow("")
+        _id: Joi.allow("")
     });
 
     return schema.validate(beverage);

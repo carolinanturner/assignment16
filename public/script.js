@@ -90,8 +90,8 @@ const getBeverages = async() => {
     populateEditForm(beverage);
   };
   
-    async function deleteBeverage(beverageId) {
-    let response = await fetch(`/api/beverages/${beverageId}`,{
+    async function deleteBeverage(_id) {
+    let response = await fetch(`/api/beverages/${_id}`,{
     method : "DELETE",
     headers : {
           "Content-Type": "application/json;charset-utf-8",
@@ -112,7 +112,7 @@ const getBeverages = async() => {
 
     const populateEditForm = (beverage) => {
       const form = document.getElementById("add-edit-beverage-form");
-      form.beverageId.value=beverage.beverageId,
+      form._id.value=beverage._id,
       form.beverageTitle.value = beverage.beverageTitle;
       form.hot_or_iced.value = beverage.hot_or_iced;
       form.price.value = beverage.price;
@@ -137,8 +137,8 @@ const getBeverages = async() => {
       formData.append("recommendation", getRecommendations());
       let response;
       //if is new beverage
-      if (form.beverageId.value==-1){
-          formData.delete("beverageId");
+      if (form._id.value==-1){
+          formData.delete("_id");
           response = await fetch("/api/beverages/", {
               method : "POST",
               body : formData,
@@ -146,7 +146,7 @@ const getBeverages = async() => {
       }
       else { //existing !!
         console.log("editting beverage ");
-        response = await fetch(`/api/beverages/${form.beverageId.value}`, {
+        response = await fetch(`/api/beverages/${form._id.value}`, {
           method: "PUT", 
           body: formData,
         });
@@ -160,8 +160,8 @@ const getBeverages = async() => {
     
     let result= await response.json(); 
 
-    if (form.beverageId.value != -1) {
-      const beverage = await getBeverage(form.beverageId.value);
+    if (form._id.value != -1) {
+      const beverage = await getBeverage(form._id.value);
       displayDetails(beverage);
 };
 
@@ -170,16 +170,14 @@ const getBeverages = async() => {
     showBeverages();
   }
   
-  const getBeverage = async (beverageId) => {
-    let response = await fetch(`/api/beverages/${beverageId}`);
+  const getBeverage = async (_id) => {
+    let response = await fetch(`/api/beverages/${_id}`);
     if (response.status != 200) {
       console.log("Error receiving beverage!");
       return;
     }
     return await response.json();
   };
-  
-  console.log("youiuouuo!!!!!!");
   const getFlavors = () => {
     const inputs = document.querySelectorAll("#flavors-boxes input");
     const flavors = [];
@@ -203,7 +201,7 @@ const getBeverages = async() => {
     const resetForm = () => {
       const form = document.getElementById("add-edit-beverage-form");
       form.reset();
-      form.beverageId = "-1";
+      form._id = "-1";
       document.getElementById("flavors-boxes").innerHTML = "";
     };
 
